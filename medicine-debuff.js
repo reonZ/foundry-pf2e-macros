@@ -7,7 +7,9 @@ if (!actors.length) {
     actors = [game.user.character]
 }
 
-const playerActors = game.actors.filter(x => x.hasPlayerOwner)
+const playerActors = game.actors.filter(
+    x => x.hasPlayerOwner && (x.data.data.skills.med.rank > 0 || x.itemTypes.feat.find(x => x.slug === 'natural-medicine'))
+)
 
 const debuffs = [
     { name: 'Treat Wounds', duration: { value: 50, unit: 'minutes' } },

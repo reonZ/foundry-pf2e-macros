@@ -8,7 +8,7 @@ if (nbTokens === 0) {
     return
 }
 
-const effects = actor.itemTypes.effect.filter(x => x.name?.startsWith('Spell Effect: Boost Eidolon') || x.name === 'Spell Effect: Reinforce Eidolon')
+const effects = actor.itemTypes.effect.filter(x => x.slug?.startsWith('spell-effect-boost-eidolon') || x.slug === 'spell-effect-reinforce-eidolon')
 
 if (effects.length === 0) {
     ui.notifications.warn('Creature does not have any eidolon effect.')

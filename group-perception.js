@@ -12,7 +12,7 @@ function rollPerception(token) {
 function groupPerception() {
     let result = '<hr>'
     canvas.tokens.placeables.filter(x => x.actor?.hasPlayerOwner).forEach(token => (result += rollPerception(token)))
-    ChatMessage.create({ content: result, blind: true, flavor: 'Group Perception Checks' })
+    ChatMessage.create({ content: result, flavor: 'Group Perception Checks', whisper: [game.user.id] })
 }
 
 groupPerception()

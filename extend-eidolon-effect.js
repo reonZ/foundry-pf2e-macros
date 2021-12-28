@@ -53,7 +53,7 @@ if (effects.length === 1) {
 content += '<div><input type="radio" name="rounds" value="3" checked /> 3 rounds</div>'
 content += '<div style="margin-bottom: 8px;"><input type="radio" name="rounds" value="4" /> 4 rounds</div>'
 
-const dialog = new Dialog({
+let dialog = new Dialog({
     title: 'Extend Eidolon Effect',
     content,
     buttons,

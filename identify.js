@@ -4,7 +4,7 @@
 /** @typedef {NegativeDCAdjustment|PositiveDCAdjustment} DCAdjustment */
 
 const localize = game.i18n.localize.bind(game.i18n)
-const notMatchingTraditionModifier = game.settings.get('pf2e', 'identifyMagicNotMatchingTraditionModifier')
+const notMatchingTraditionModifier = /** @type {number} */ (game.settings.get('pf2e', 'identifyMagicNotMatchingTraditionModifier'))
 const proficiencyWithoutLevel = game.settings.get('pf2e', 'proficiencyVariant') === 'ProficiencyWithoutLevel'
 
 const RARITIES = ['common', 'uncommon', 'rare', 'unique']
@@ -66,6 +66,7 @@ const items = game.actors.reduce((items, actor) => {
     return items
 }, /** @type {Item[]} */ ([]))
 
+// @ts-ignore
 const buttons = {
     ok: {
         icon: '<i class="fas fa-times"></i>',
@@ -80,7 +81,7 @@ function getContent() {
         <label style="margin-right: 4px;">Remove from list</label>
         <input type="radio" name="remove" value="recheck" checked>
         <label>Remove for the day</label>
-        <a data-type="reset" style="margin-left: 10px;" title="Reset all items identification"><i class="fas fa-redo-alt"></i></a>
+        <a data-type="reset" style="margin-left: 10px;" title="Reset Day"><i class="fas fa-redo-alt"></i></a>
     </div>
     <div class="flexcol" style="margin-bottom: 8px;">
     `
@@ -202,7 +203,6 @@ function templateData(skill, value) {
 /**
  * @param {ItemData} itemData
  * @param {number} baseDc
- * @param {*} notMatchingTraditionModifier
  */
 function identifyMagic(itemData, baseDc) {
     const result = {
@@ -269,6 +269,7 @@ async function identify(event) {
     await remove(event, true)
 }
 
+// @ts-ignore
 let dialog
 function createDialog() {
     dialog = new Dialog({
@@ -298,6 +299,12 @@ async function remove(event, noRecheck) {
 }
 
 async function reset() {
+    const confirm = await Dialog.confirm({
+        title: 'Reset Day',
+        content: 'All the items that were removed for the day will appear once again in the list.',
+        defaultYes: true,
+    })
+    if (!confirm) return
     for (const item of items) await item.unsetFlag('world', 'identify.checked')
     dialog?.close()
     createDialog()

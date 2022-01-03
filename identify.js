@@ -264,8 +264,9 @@ function postChecks(event) {
  * @param {JQuery.TriggeredEvent<any, any, HTMLAnchorElement>} event
  */
 async function identify(event) {
-    const index = event.currentTarget.dataset.index
-    await items[index].setIdentificationStatus('identified')
+    const item = items[event.currentTarget.dataset.index]
+    await item.setIdentificationStatus('identified')
+    await item.toChat()
     await remove(event, true)
 }
 
